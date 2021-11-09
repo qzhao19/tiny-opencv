@@ -4,13 +4,11 @@ import numpy as np
 from ../core/_extmath import gaussian_fn
 
 
-
 class Filter(object):
     def __init__(self, ksize=3, sigma=1.5):
         self._ksize = ksize
         self._sigma = sigma
 
-    
     def _gaussian_kernel(self):
         """Return a 2d-array of shape [ksize, ksize]
         """
@@ -48,14 +46,12 @@ class Filter(object):
                         dtype=np.float32)
         
         img_out[pad : pad + img_h, pad : pad + img_w, :] = img_in.copy()
-        
         tmp = img_out.copy()
         
         for h in range(img_h):
             for w in range(img_w):
                 for c in range(img_c):
                     img_out[h + pad, w + pad, c] = np.mean(tmp[h : h + self._ksize, w : w + self._ksize, c])
-        
         
         img_out = np.clip(img_out, 0, 255)
         img_out = img_out[pad : pad + img_h, pad : pad + img_w, :].astype(np.float32)
