@@ -91,3 +91,13 @@ def hvs2bgr(img_in, hsv):
     img_out = (img_out * 255).astype(np.uint8)
 
     return img_out
+
+def discretization(img_in):
+    """Image discretization of color
+    """   
+    img_out = img_in.copy()
+    for i in range(4):
+        idx = np.where(((64 * i - 1) <= img_out) & ((64 * (i + 1) - 1)))
+        img_out[idx] = 32 * (2 * 1 + 1)
+        
+    return img_out
