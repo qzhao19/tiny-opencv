@@ -1,24 +1,32 @@
 import numpy as np
 
-def bgr2gray(img_in):
-    img = img_in.astype(np.float)
+def bgr2rgb(img_in):
+    """
+    """
+    img_out = img_in.copy()    
 
-    b = img[:, :, 0].copy()
-    g = img[:, :, 1].copy()
-    r = img[:, :, 2].copy()
+    b = img_out[:, :, 0].copy()
+    g = img_out[:, :, 1].copy()
+    r = img_out[:, :, 2].copy()
+
+    # BGR => RGB
+    img_out[:, :, 0] = r
+    img_out[:, :, 1] = g
+    img_out[:, :, 2] = b
+
+    return img_out
+
+def bgr2gray(img_in):
+    img_out = img_in.astype(np.float)
+
+    b = img_out[:, :, 0].copy()
+    g = img_out[:, :, 1].copy()
+    r = img_out[:, :, 2].copy()
 
     img_out = 0.2126*r + 0.7152*g + 0.0722*b
     img_out = img_out.astype(np.uint8)
 
     return img_out
-
-def binarization(img_in, threshold=155):
-    img = img_in.copy()
-    
-    img[img < threshold] = 0
-    img[img > threshold] = 255
-    
-    return img
 
 def bgr2hsv(img_in):
     """Convert bgr image to hsv image
@@ -100,4 +108,12 @@ def discretization(img_in):
         idx = np.where(((64 * i - 1) <= img_out) & ((64 * (i + 1) - 1)))
         img_out[idx] = 32 * (2 * 1 + 1)
         
+    return img_out
+
+def binarization(img_in, threshold=155):
+    img_out = img_in.copy()
+    
+    img_out[img_out < threshold] = 0
+    img_out[img_out > threshold] = 255
+    
     return img_out
